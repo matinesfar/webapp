@@ -6,11 +6,11 @@ var path = require('path');
 var multer = require('multer'); // v1.0.5
 var upload = multer(); 
 
-var serviceAccount = require("../pfee-95e72-firebase-adminsdk-lnt4h-9761a22b92.json");
+var serviceAccount = require("../bennia-itansfo-firebase-adminsdk-30hx7-a050b7c503.json");
 
 var defaultApp = admin.initializeApp({
   credential: admin.credential.cert(serviceAccount),
-  databaseURL: "https://pfee-95e72.firebaseio.com"
+  databaseURL: "https://bennia-itansfo.firebaseio.com"
 });
 var isAdmin;
 var db = admin.firestore();
@@ -25,29 +25,29 @@ router.use('/js', express.static(path.join(__dirname, 'public/javascripts')));
 router.use('/css', express.static(path.join(__dirname, 'public/css')));
 /* GET home page. */
 router.get('/', function(req, res, next) {
-	//console.log('-in routes-router.get * '+req.session.userId);
- if (req.session.userId) {
-			 //isAdmin=req.session.userdroits;
-	 //console.log(isAdmin,' = ',req.session.userdroits);
-	 res.render('resistance',{admin: isAdmin});
-	 }
-	 res.render('index', {page:'Home', menuId:'home'});
+   //console.log('-in routes-router.get * '+req.session.userId);
+	if (req.session.userId) {
+        //isAdmin=req.session.userdroits;
+		//console.log(isAdmin,' = ',req.session.userdroits);
+		res.render('dashboard',{admin: isAdmin});
+    }
+    res.render('index', {page:'Home', menuId:'home'});
 });
 
 function isAuthenticated(req, res, next) {
- const sessionCookie = req.cookies.__session || '';
-	 admin.auth().verifySessionCookie(sessionCookie, true).then((decodedClaims) => {
-	 try {
-		 res.locals.admin = (decodedClaims.admin.toString() === 'true')? true: false;
-		 res.locals.supervisor = (decodedClaims.supervisor.toString() === 'true')? true: false;
-		 return next();
-	 }
-	 catch(error) {
-		 return next();
-	 }
-	 }).catch(error => {
-		 res.redirect('/');
-	 });
+	const sessionCookie = req.cookies.__session || '';
+    admin.auth().verifySessionCookie(sessionCookie, true).then((decodedClaims) => {
+		try {
+			res.locals.admin = (decodedClaims.admin.toString() === 'true')? true: false;
+			res.locals.supervisor = (decodedClaims.supervisor.toString() === 'true')? true: false;
+			return next();
+		}
+		catch(error) {
+			return next();
+		}
+		}).catch(error => {
+			res.redirect('/');
+		});
 }
 /* --------------------------------------------------------------------- */
 router.post('/sessionLogin/', function(req, res, next) {
@@ -94,35 +94,35 @@ router.post('/sessionLogin/', function(req, res, next) {
     }).catch(function(error) { console.log(error) });
 });	
 /* --------------------------------------------------------------------- */
-router.get('/resistance/', function(req, res, next) {
+router.get('/dashboard/', function(req, res, next) {
 	if (req.session.userId) {
         //isAdmin=req.session.userdroits;
 		//console.log(isAdmin,' = ',req.session.userdroits);
-		return res.render('resistance',{admin: isAdmin});
+		return res.render('dashboard',{admin: isAdmin});
     }
     res.render('index', {page:'Home', menuId:'home'});
 })
-router.post('/resistance/', (req, res) => {
+router.post('/dashboard/', (req, res) => {
 	if (req.session.userId) {
-		res.redirect('/templates_resistance/');
+		res.redirect('/templates_dashboard/');
     }
     res.render('index', {page:'Home', menuId:'home'});	
 })
-router.get('/templates_resistance/', (req, res) => {
-	res.render('templates/resistance');
+router.get('/templates_dashboard/', (req, res) => {
+	res.render('templates/dashboard');
 })
 /* --------------------------------------------------------------------- */
 router.get('/signout/', function(req, res, next) {
-	req.session.userName = null;
-	req.session.userId = null;
-req.session.userdroits = null;
-	res.redirect('/');
+    req.session.userName = null;
+    req.session.userId = null;
+	req.session.userdroits = null;
+    res.redirect('/');
 });
 router.get('/signup/', function(req, res, next) {
-if (req.session.userId) {
-	res.redirect('/resistance');
-	}
-	res.redirect('/signup/');
+	if (req.session.userId) {
+		res.redirect('/dashboard');
+    }
+    res.redirect('/signup/');
 });
 /* --------------------------------------------------------------------- */
 router.post('/signup/', (req, res) => {
