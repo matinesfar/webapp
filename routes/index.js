@@ -6,11 +6,11 @@ var path = require('path');
 var multer = require('multer'); // v1.0.5
 var upload = multer(); 
 
-var serviceAccount = require("../bennia-itansfo-firebase-adminsdk-30hx7-a050b7c503.json");
+var serviceAccount = require("../pfee-95e72-firebase-adminsdk-lnt4h-9761a22b92.json");
 
 var defaultApp = admin.initializeApp({
   credential: admin.credential.cert(serviceAccount),
-  databaseURL: "https://bennia-itansfo.firebaseio.com"
+  databaseURL: "https://pfee-95e72.firebaseio.com"
 });
 var isAdmin;
 var db = admin.firestore();
@@ -1006,7 +1006,7 @@ router.get('**', (req, res) => {
 })
 
 router.get('**', (req, res) => {
-	return res.redirect('https://br-webapp.herokuapp.com')
+	return res.redirect('hhttps://i-test-cmfcd.herokuapp.com/')
 })
 
 /* --------------------------------------------------------------------- */
