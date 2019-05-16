@@ -166,7 +166,7 @@ if ('undefined' !== typeof user.uid) {
         data.forEach(function(device) {
           $("#container #device-lists").append(
             '<div class="device">\
-                <div>Device Name: '+Resistance.Date+'</span></div>\
+                <div>Device Name: '+device.device_name+'</span></div>\
                 <div>Company Name: <span>'+device.company_name+'</span></div>\
                 <div>Device Ref: <span class="dev-ref">'+device.device_ref+'</span></div>\
               </div>');
